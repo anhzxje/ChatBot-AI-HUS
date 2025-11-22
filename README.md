@@ -1,171 +1,182 @@
-Chatbot AI HUS
-Thực hiện bởi: Nhóm sinh viên trường Đại học Khoa học Tự nhiên (HUS)
+# 🤖 Chatbot AI HUS
 
-Project URL: https://www.suhanwijaya.com/ai-chatbot
+**Phát triển bởi:** Sinh viên Trường Đại học Khoa học Tự nhiên – ĐHQGHN (HUS)
 
-Chạy trên máy cục bộ (Local Development)
-Tạo một OpenAI API key và gán nó vào biến môi trường OPENAI_API_KEY.
+Ứng dụng Chatbot AI hỗ trợ đa phiên (multi-session), lưu trữ dữ liệu bền vững và tích hợp mô hình GPT. Hệ thống được xây dựng theo kiến trúc module, hướng dịch vụ (service-oriented), tập trung vào khả năng mở rộng và trải nghiệm người dùng.
 
-Đảm bảo bạn đã cài đặt và đang chạy Docker. Để build và khởi động các container, chạy lệnh:
+---
 
-Bash
+## 📑 Mục lục
 
+- [Phát triển Local](#-phát-triển-local)
+- [Tính năng](#-tính-năng)
+- [Thiết kế & UI/UX](#-thiết-kế--uiux)
+- [Kiến trúc hệ thống](#-kiến-trúc-hệ-thống)
+- [Bảo mật](#-bảo-mật)
+- [Khả năng mở rộng & hiệu năng](#-khả-năng-mở-rộng--hiệu-năng)
+- [Lộ trình phát triển](#-lộ-trình-phát-triển)
+
+---
+
+## 🚀 Phát triển Local
+
+### Yêu cầu hệ thống
+
+- Docker & Docker Compose
+- OpenAI API Key
+
+### Các bước cài đặt
+
+**1. Tạo file môi trường `.env`:**
+
+**2. Build & khởi động hệ thống:**
+
+```
 npm start
-Dịch vụ sẽ chạy tại địa chỉ http://localhost:3000.
+```
 
-Để theo dõi logs (nhật ký hoạt động):
+**3. Ứng dụng chạy tại:**
 
-Bash
+`http://localhost:3000`
 
+**4. Theo dõi log:**
+
+```
 docker compose logs -f
-Để dừng và gỡ bỏ các Docker container:
+```
 
-Bash
+**Dừng ứng dụng:**
 
+```
 npm stop
-Tổng quan
-Chức năng
-Các tính năng cốt lõi
-Giao diện trò chuyện thời gian thực với phản hồi từ AI.
+```
 
-Xác thực người dùng (Đăng ký/Đăng nhập).
+---
 
-Quản lý lịch sử cuộc trò chuyện.
+## ✨ Tính năng
 
-Hỗ trợ đa phiên làm việc (Multi-session).
+### 🎯 Chức năng cốt lõi
 
-Lưu trữ bền vững các cuộc hội thoại.
+- Giao diện thời gian thực (streaming)
+- Đăng ký/đăng nhập an toàn
+- Lưu lịch sử toàn bộ các cuộc hội thoại
+- Hỗ trợ đa phiên làm việc
+- Persistence ổn định, không mất dữ liệu
 
-Tích hợp AI
-Ứng dụng sử dụng mô hình GPT của OpenAI để tạo phản hồi, với giao diện GenAIClient được thiết kế để dễ dàng tích hợp với các nhà cung cấp AI khác trong tương lai.
+### 🧠 Tích hợp AI
 
-Thiết kế và Trải nghiệm người dùng
-Giao diện người dùng (UI)
-Thiết kế hiện đại, gọn gàng dựa trên Material-UI.
+- Sử dụng mô hình GPT của OpenAI
+- Abstraction GenAIClient → dễ mở rộng sang Gemini, Claude,...
 
-Giao diện chat trực quan với lịch sử tin nhắn và khu vực nhập liệu.
+---
 
-Bố cục đơn giản với thanh bên (sidebar) có thể thu gọn để xem lại các đoạn chat cũ.
+## 🎨 Thiết kế & UI/UX
 
-Trải nghiệm người dùng (UX)
-Cập nhật tin nhắn theo thời gian thực.
+### Giao diện người dùng
 
-Tự động cuộn xuống tin nhắn mới nhất.
+- Thiết kế hiện đại dựa trên Material-UI
+- Layout trực quan: chat area, input box, sidebar
 
-Hiển thị trạng thái đang tải (loading) trong khi AI phản hồi.
+### Trải nghiệm người dùng
 
-Xử lý lỗi với các thông báo thân thiện cho người dùng.
+- Cập nhật real-time
+- Auto-scroll thông minh
+- Feedback rõ ràng (loading, lỗi)
+- Phiên đăng nhập tồn tại lâu dài
 
-Duy trì phiên đăng nhập.
+---
 
-Kiến trúc hệ thống
-Cấu trúc dự án
-Kiến trúc mô-đun (Modular architecture) với sự phân tách rõ ràng các mối quan tâm (separation of concerns).
+## 🏗 Kiến trúc hệ thống
 
-Kết nối lỏng lẻo (Loosely coupled) giữa các thành phần: Client, Server, Data, Cache và Integration.
+### Cấu trúc dự án
 
-Sử dụng TypeScript toàn diện để đảm bảo an toàn kiểu dữ liệu (type safety) và trải nghiệm lập trình tốt (DevEx).
+- Module hóa rõ ràng: Client – Server – Data – Integration
+- 100% TypeScript
+- Docker Compose hỗ trợ môi trường phát triển
 
-Sử dụng Docker compose để đơn giản hóa việc thiết lập môi trường cục bộ.
+### Kiến trúc 3 tầng
 
-Phong cách code và định dạng nhất quán.
+#### 1. **Client (Frontend)**
 
-Kiến trúc 3 tầng (Three-Tier Architecture)
-Client (Lớp Frontend)
-React kết hợp với các component của Material-UI.
+- React + Material-UI  
+- Redux (tách Data/UI)  
+- Optimistic UI  
 
-Redux để quản lý trạng thái toàn cục (global state management).
+#### 2. **Server (Backend)**
 
-Tách biệt các lát cắt (slices) cho trạng thái dữ liệu và trạng thái giao diện.
+- Express.js  
+- Kiến trúc plugin  
+- API RESTful có xác thực & xử lý lỗi đầy đủ  
 
-Cập nhật giao diện lạc quan (Optimistic chat updates) giúp tăng trải nghiệm người dùng.
+#### 3. **Data Layer**
 
-Server (Lớp Ứng dụng)
-Máy chủ Express.js.
+- MongoDB: lưu người dùng & hội thoại  
+- Redis: quản lý session  
+- Repository Pattern tách logic truy vấn dữ liệu  
 
-Kiến trúc dựa trên plugin để phân tách mối quan tâm và dễ dàng mở rộng trong tương lai.
+### Hạ tầng
 
-Quản lý phiên (session) bảo mật.
+- Docker đảm bảo đồng nhất môi trường
+- Triển khai:
+  - Backend + Redis: Render Managed
+  - Frontend: Render Static
+  - Database: MongoDB Atlas
 
-RESTful API với xác thực và phản hồi lỗi rõ ràng.
+---
 
-Data (Lớp Dữ liệu)
-MongoDB: Lưu trữ hồ sơ người dùng và nội dung cuộc trò chuyện.
+## 🔒 Bảo mật
 
-Redis: Quản lý phiên làm việc (session management).
+### Xác thực dựa trên session
 
-Repository Pattern: Trừu tượng hóa logic truy cập dữ liệu khỏi logic nghiệp vụ.
+- Hash mật khẩu an toàn  
+- Redis session siêu nhanh  
+- Cookie bảo mật (Secure, HttpOnly, SameSite)
 
-Cơ sở hạ tầng (Infrastructure)
-Đóng gói bằng Docker (Containerization) giúp dễ dàng triển khai và mở rộng.
+### Bảo mật hạ tầng
 
-Cấu hình riêng biệt cho môi trường phát triển (development) và sản xuất (production).
+- Secret lưu trong `.env`  
+- Log được làm sạch, không lộ thông tin nhạy cảm  
 
-Server và Redis được triển khai trên dịch vụ quản lý của Render.
+---
 
-Client được triển khai trên Render static site (đóng vai trò như CDN).
+## 📈 Khả năng mở rộng & hiệu năng
 
-Cơ sở dữ liệu MongoDB được triển khai trên MongoDB Atlas serverless.
+### Tối ưu hiện tại
 
-Bảo mật
-Xác thực dựa trên phiên (Session-based Authentication)
-Băm mật khẩu an toàn (Secure password hashing) trong kho dữ liệu.
+- Dockerization  
+- Redis caching  
+- Webpack bundle tối ưu  
 
-Sử dụng Redis để lưu trữ phiên tạm thời.
+### Lợi thế kiến trúc
 
-Cấu hình Cookie bảo mật.
+- Loose-coupling (tách biệt các tầng)  
+- MongoDB dễ scale ngang  
+- render.yaml giúp IaC & triển khai tự động  
 
-Bảo mật hạ tầng
-Quản lý biến môi trường (không lưu trữ bí mật/secrets trong mã nguồn).
+---
 
-Làm sạch URI cơ sở dữ liệu để tránh lộ thông tin đăng nhập trong logs.
+## 🚀 Lộ trình phát triển
 
-Khả năng mở rộng và Hiệu năng
-Các tối ưu hiện tại
-Docker containerization để dễ dàng triển khai và mở rộng quy mô.
+### 🛠 Tính năng mới
 
-Kho lưu trữ Redis cho phép tận dụng khả năng caching.
+- Hiển thị Markdown & code block đẹp hơn  
+- Hỗ trợ upload file (multi-modal)  
+- Xuất/Chia sẻ hội thoại  
+- Tích hợp thêm Gemini, Claude  
 
-Tối ưu hóa Webpack để giảm kích thước gói ứng dụng (bundle size).
+### ⚡ Hiệu năng & kiểm thử
 
-Cân nhắc về khả năng mở rộng
-Sự liên kết lỏng lẻo giữa các kho dữ liệu và ứng dụng giúp mỗi lớp có thể được thay thế hoặc mở rộng độc lập.
+- Unit, Integration, E2E test  
+- Tối ưu database  
+- Rate limiting  
+- Request caching  
+- Giảm kích thước bundle  
 
-Lựa chọn MongoDB cho khả năng mở rộng theo chiều ngang (horizontal scalability) và mô hình linh hoạt để phù hợp với các cuộc hội thoại đa phương thức.
+### 🛡 Bảo mật & giám sát
 
-Cấu hình render.yaml cho phép triển khai đám mây có thể mở rộng thông qua Infrastructure-as-Code.
+- API Key Rotation  
+- Cho phép user nhập API key riêng  
+- Log tối ưu và dễ giám sát  
+- Tích hợp Datadog hoặc hệ thống quan sát khác  
 
-Định hướng phát triển (Future Improvements)
-Nếu có thêm thời gian, nhóm sẽ thực hiện các cải tiến sau:
-
-Tính năng
-Trau chuốt định dạng hiển thị của các câu trả lời từ AI.
-
-Hỗ trợ tải lên tệp tin (file upload) để cho phép hội thoại đa phương thức.
-
-Thêm tính năng xuất/chia sẻ cuộc trò chuyện.
-
-Tích hợp thêm nhiều nhà cung cấp AI khác (ví dụ: Google Gemini, Anthropic Claude).
-
-Hiệu năng
-Viết các bài kiểm thử: Unit test, Integration test và End-to-end test.
-
-Tối ưu hóa cơ sở dữ liệu trong việc cập nhật hội thoại.
-
-Triển khai giới hạn tốc độ API (API rate limiting).
-
-Thêm bộ nhớ đệm cho các yêu cầu (request caching).
-
-Tối ưu hóa kích thước gói client.
-
-Bảo mật
-Triển khai xoay vòng API key.
-
-Yêu cầu người dùng ứng dụng cung cấp API key của riêng họ.
-
-Giám sát (Monitoring)
-Cấu trúc hóa logging và báo cáo/xử lý lỗi tốt hơn.
-
-Triển khai các công cụ quan sát (o11y tools) như Datadog.
-
-Giám sát các chỉ số tính toán/lưu trữ, logs và traces.
+---
